@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Spring-Complete-Notess/Introducton.md",
+                "file": "Spring-Complete-Notess/Spring core.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Introducton"
+              "title": "Spring core"
             }
           }
         ]
@@ -190,9 +190,12 @@
   },
   "active": "dd41e2994c3137d3",
   "lastOpenFiles": [
+    "Pasted image 20260924150234.png",
+    "Pasted image 20260924150215.png",
+    "Spring-Complete-Notess/Introducton.md",
+    "Spring-Complete-Notess/Spring core.md",
     "Pasted image 20260922165213.png",
     "Welcome.md",
-    "Spring-Complete-Notess/Introducton.md",
     "Core java",
     "Spring-Complete-Notess"
   ]
