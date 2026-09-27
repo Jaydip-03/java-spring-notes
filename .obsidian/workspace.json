@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Spring-Complete-Notess/Spring core.md",
+                "file": "Spring-Complete-Notess/Depemdency Injection.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Spring core"
+              "title": "Depemdency Injection"
             }
           }
         ]
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Spring-Complete-Notess/Introducton.md",
+                "file": "Spring-Complete-Notess/Depemdency Injection.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -174,8 +174,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -190,10 +189,11 @@
   },
   "active": "dd41e2994c3137d3",
   "lastOpenFiles": [
+    "Spring-Complete-Notess/Spring core.md",
+    "Spring-Complete-Notess/Depemdency Injection.md",
     "Pasted image 20260924150234.png",
     "Pasted image 20260924150215.png",
     "Spring-Complete-Notess/Introducton.md",
-    "Spring-Complete-Notess/Spring core.md",
     "Pasted image 20260922165213.png",
     "Welcome.md",
     "Core java",
