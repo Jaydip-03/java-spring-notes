@@ -1,3 +1,13 @@
+> [!TIP]
+> Trace object creation from the traditional Java examples to the Spring IoC container, then review the container types and bean configuration.
+
+| Concept | Role in these notes |
+|---|---|
+| IoC and DI | Transfer object creation and dependency management to a container |
+| Spring Container | Creates, configures, and manages beans |
+| BeanFactory | Basic container interface |
+| ApplicationContext | Extended container commonly used in Spring applications |
+
 ## Introduction to Spring Core
 
 **Spring Core** is the fundamental part of the **Spring Framework** that provides the core features required to build Spring applications.
@@ -23,30 +33,27 @@ Spring Core mainly revolves around:
 # Basic working
 In a traditional Java application, developers generally create and manage objects themselves:
 
-Developer
-   ↓
-Creates Object
-   ↓
-Manages Dependencies
-   ↓
-Uses Object
+```mermaid
+flowchart TD
+    D[Developer] --> CO[Creates Object]
+    CO --> MD[Manages Dependencies]
+    MD --> UO[Uses Object]
+```
 
 # With Spring Core:
 
-              Spring Container
-                     │
-          ┌──────────┴──────────┐
-          ↓                     ↓
-     Creates Objects       Injects Dependencies
-          │                     │
-          └──────────┬──────────┘
-                     ↓
-                Application
+```mermaid
+flowchart TD
+    SC[Spring Container] --> CO[Creates Objects]
+    SC --> ID[Injects Dependencies]
+    CO --> APP[Application]
+    ID --> APP
+```
 
 
 
----------------------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------------------
+---
+---
 
 # Inversion of Control (IoC)
 
@@ -69,29 +76,31 @@ In a traditional application, developers have to manually manage object creation
 
 The IoC Container uses various configuration methods XML, Java annotations, and Java code to understand the objects that make up the application. These objects, known as **Beans**, are then managed by the container. Whether it's creating a new instance of a class, setting its properties, or handling its destruction, the IoC Container takes care of everything, freeing developers to focus on the application's business logic
 
---------------------------------------------------------------------
+---
 # First understand "Control"
 
 Let's take a simple example.
 
-`public class Car {`
+```java
+public class Car {
 
-    `Engine engine = new Engine();`
+    Engine engine = new Engine();
 
-`}`
+}
+```
 
 Here, `Car` controls the creation of `Engine`
-Car
- │
- │ creates
- ↓
-Engine
+```mermaid
+flowchart TD
+    Car -->|creates| Engine
+```
 
 
 What happens with IoC ?
 With IoC, `Car` doesn't create its `Engine`.
-Instead. 
+Instead.
 
+```java
 public class Car {
 
     private Engine engine;
@@ -100,6 +109,7 @@ public class Car {
         this.engine = engine;
     }
 }
+```
 
 Now `Car` says:  "I need an Engine."
 But it doesn't say: "I will create the Engine."
@@ -107,58 +117,55 @@ But it doesn't say: "I will create the Engine."
 Someone else provides it.
 In Spring, that "someone else" is the **IoC Container**.
 
-             Spring IoC Container
-                     │
-          ┌──────────┴──────────┐
-          ↓                     ↓
-      Engine Object          Car Object
-                                  │
-                                  │ receives
-                                  ↓
-                               Engine
+```mermaid
+flowchart TD
+    C[Spring IoC Container] --> E[Engine Object]
+    C --> Car[Car Object]
+    E --> Car
+```
 
 
 
----------------------------------------------------------------------------------------------------------------------------------------
+---
 
 # What is the Spring Container?
 
 The Spring Container is the core component of the Spring Framework that manages the lifecycle of Spring Beans. It is responsible for creating, configuring, and managing beans and resolving their dependencies through Dependency Injection. The two major container interfaces are BeanFactory and ApplicationContext, with ApplicationContext being commonly used in modern Spring applications.
 
-If any class object is created and managed by Spring container then that class is known as Bean class
-Spring container is responsible to inject one class object into another class object
-Spring container is responsible to destroy bean class object
-Form object creation to object destruction Spring container is responsible to manage Bean class object
-Spring container is responsible to manage Bean Life cycle
-Spring containers make spring applications as loosely coupled
-Spring container usages singleton design patterns to create object of Bean class
+- If any class object is created and managed by Spring container then that class is known as Bean class.
+- Spring container is responsible to inject one class object into another class object.
+- Spring container is responsible to destroy bean class object.
+- Form object creation to object destruction Spring container is responsible to manage Bean class object.
+- Spring container is responsible to manage Bean Life cycle.
+- Spring containers make spring applications as loosely coupled.
+- Spring container usages singleton design patterns to create object of Bean class.
 
 
-----------------------------------------------------------------------------------------------------------------------------------------
+---
 
 **BeanFactory**
 
 This is the most basic type of IoC container in Spring. It provides the essential features needed to manage objects (called Beans) in your application. BeanFactory is lightweight and perfect for simple applications where you only need basic dependency injection.
 If you want to create object of bean class core container then it will take help of bean factory
 
-Bean factory is a interface
-It is provided by spring framework
-If you want to create of object of bean factory then it will take help of child implementing class that is xml bean factory
-Public XMLFactory(Resource resource){
-}
-We will use above constructor to create object of bean factory
-Whenever using this constructor we have to pass resource object as a argument
-Resource is an interface
-It is provided by spring framework
-We will take the help of child implementing class of resource interface that is class path resources
-Public classPathResource(String configFileName){
-}
+- Bean factory is a interface
+- It is provided by spring framework
+- If you want to create of object of bean factory then it will take help of child implementing class that is xml bean factory
+- Public XMLFactory(Resource resource){
+- }
+- We will use above constructor to create object of bean factory
+- Whenever using this constructor we have to pass resource object as a argument
+- Resource is an interface
+- It is provided by spring framework
+- We will take the help of child implementing class of resource interface that is class path resources
+- Public classPathResource(String configFileName){
+- }
 
 Whenever above using constructor to create object of classPathResources then we need to pass configuration file name with extensions in the form of String
 −
 Eg
 
-```
+```java
 public class App {
 
     public static void main(String[] args) {
@@ -180,40 +187,41 @@ public class App {
 
 Limitations of BeanFactory:
 
-Whenever using BeanFactory then we are writing deprecated code(XmlBeanFactory)
-BeanFactory will not support to annotation
-Whenever using BeanFactory then we need to use xml file as a configuration file but in the current IT market xml-based configuration outdid
-BeanFactory is a lazy instantization because it will not create bean class object until we call getBean() method
-To overcome all these limitations, we will use application context
+- Whenever using BeanFactory then we are writing deprecated code (`XmlBeanFactory`)
+- BeanFactory will not support to annotation.
+- Whenever using BeanFactory then we need to use xml file as a configuration file but in the current IT market xml-based configuration outdid.
+- BeanFactory is a lazy instantization because it will not create bean class object until we call `getBean()` method.
+- To overcome all these limitations, we will use application context.
 
-##  GetBean(BeanclassName.class):
-It is abstract method
-It is present in beanFactory
-It will take bean class as a argument in the form of .class
-It will help us to get the object which are created by spring container
-It return type is generic (bean class)
-Whenever using this method always we need to pass bean class as a argument
-If we are passing any other class then it will throw exception
+## GetBean(BeanclassName.class):
+- It is abstract method
+- It is present in beanFactory
+- It will take bean class as a argument in the form of .class
+- It will help us to get the object which are created by spring container
+- It return type is generic (bean class)
+- Whenever using this method always we need to pass bean class as a argument
+- If we are passing any other class then it will throw exception
 
-----------------------------------------------------------------------------------------------------------------------------------------
+---
 
 
 ## Application Context
 
 This is a more advanced type of IoC container that extends the capabilities of BeanFactory. In addition to the basic features, ApplicationContext offers more robust options like event propagation, declarative mechanisms to create a Bean, and a more extensive lifecycle management. It's typically the go-to choice for most Spring applications because of its powerful features.
 
-If we want j2ee container to create object of bean class, then we will take the help of application context
-Application context is a early instantiation it means it will create all bean class object during classloading processes
-Application context will support xml-based configuration as well as annotation based configuration
-Application context is used by default inside spring boot framework to create object of bean class
-To create object of application context we will take the help of child implementing class that AnnotationConfigApplicationContext(config.class)
-Public AnnotationConfighApplicationContext(AnnotationConfigurationclass.class){
-}
-Whenever using above constructor, we need to pass configuration class name in the form of .class
-It is a child of BeanFactory
-It is recommended to use whenever using spring framework
+- If we want j2ee container to create object of bean class, then we will take the help of application context
+- Application context is a early instantiation it means it will create all bean class object during classloading processes
+- Application context will support xml-based configuration as well as annotation based configuration
+- Application context is used by default inside spring boot framework to create object of bean class
+- To create object of application context we will take the help of child implementing class that AnnotationConfigApplicationContext(config.class)
+- Public AnnotationConfighApplicationContext(AnnotationConfigurationclass.class){
+- }
+- Whenever using above constructor, we need to pass configuration class name in the form of .class
+- It is a child of BeanFactory
+- It is recommended to use whenever using spring framework
 
-`public class Engine {
+```java
+public class Engine {
     public void start() {
         System.out.println("Engine started");
     }
@@ -232,7 +240,9 @@ public class Car {
         System.out.println("Car is driving");
     }
 }
+```
 
+```java
 // Configuration using Java Annotations
 @Configuration
 public class AppConfig {
@@ -255,53 +265,59 @@ public class SpringIoCExample {
         Car car = context.getBean(Car.class);
         car.drive();
     }
-}`
+}
+```
 
 
-![[Pasted image 20260924150234.png]]
+![Diagram](../../assets/Pasted%20image%2020260924150234.png)
 
 
-## @Component  Annotation
+## `@Component` Annotation
 
-It is given by spring framework
-It is present in org.springframework.stereotype
-It is stereotype annotation
-It will help us to make class as a bean class
-If are using this annotation to any class then the class object will be created and managed by Spring container
+- It is given by spring framework.
+- It is present in `org.springframework.stereotype`.
+- It is stereotype annotation.
+- It will help us to make class as a bean class.
+- If are using this annotation to any class then the class object will be created and managed by Spring container.
 
-`@Component`
-  `public class Phone {`
-
+```java
+@Component
+public class Phone {
     public Phone() {
-    System.out.println("phone object is created");
+        System.out.println("phone object is created");
     }
-
-   `}
-
-
-
-@Configuration:
-It will help us to make class as configuration
-Spring container will always search for configuration class
-Inside configuration class we can do bean class configuration, we can defined based package of bean class ....etc
-
-@ComponentScan:
-It is class level annotation
-It will help us to define based packages
-It will help us to tell spring container which package has to be scan to getBean class
-Spring container we scan only those packages which are defined inside component scan annotation
-If we are not defining any packages, then component scan will take configuration class package name as a based Package
-Inside componentScan package we can define more than one packages
-Eg
-
-`@Configuration`
- `@ComponentScan`
- `public class Config {`
- `}`
+}
+```
 
 
 
-==------------------------------------------------------------------------------------------------
+### `@Configuration`
+
+- It will help us to make class as configuration.
+- Spring container will always search for configuration class.
+- Inside configuration class we can do bean class configuration, we can defined based package of bean class, etc.
+
+### `@ComponentScan`
+
+- It is class level annotation.
+- It will help us to define based packages.
+- It will help us to tell spring container which package has to be scan to getBean class.
+- Spring container we scan only those packages which are defined inside component scan annotation.
+- If we are not defining any packages, then component scan will take configuration class package name as a based Package.
+- Inside componentScan package we can define more than one packages.
+
+Example:
+
+```java
+@Configuration
+@ComponentScan
+public class Config {
+}
+```
+
+
+
+---
 
 # Spring Context
 
@@ -331,38 +347,34 @@ Spring provides several implementations of the `ApplicationContext`, each suitab
 
 ### Example: Setting Up Spring Context with Annotations
 
-`package com.jay.springcontext;  
-  
-import org.springframework.stereotype.Component;  
-  
-`@Component`  
-`public class Greeting {`  
-    `public void greet() {`  
-        `System.out.println("Hello from greetingclass") ;`  
-    `}`
-    `}`
+```java
+package com.jay.springcontext;
 
+import org.springframework.stereotype.Component;
 
-`package com.jay.springcontext;`  
-  
-`import org.springframework.boot.CommandLineRunner;`  
-`import org.springframework.boot.SpringApplication;`  
-`import org.springframework.boot.autoconfigure.SpringBootApplication;`  
-`import org.springframework.context.ApplicationContext;`  
-`import org.springframework.context.ConfigurableApplicationContext;`  
-`import org.springframework.context.annotation.AnnotationConfigApplicationContext;`  
- `@SpringBootApplication`  
-`public class SpringContextApplication {`  
-  
-     public static void main(String[] args) {  
-        ConfigurableApplicationContext cac =  
-        SpringApplication.run(SpringContextApplication.class, args); 
-  
-        Greeting g =  cac.getBean(Greeting.class) ;  
-         g.greet() ;  
-  
-          
+@Component
+public class Greeting {
+    public void greet() {
+        System.out.println("Hello from greetingclass");
     }
-      
-  
-`}`
+}
+```
+
+```java
+package com.jay.springcontext;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+
+@SpringBootApplication
+public class SpringContextApplication {
+    public static void main(String[] args) {
+        ConfigurableApplicationContext cac =
+                SpringApplication.run(SpringContextApplication.class, args);
+
+        Greeting g = cac.getBean(Greeting.class);
+        g.greet();
+    }
+}
+```

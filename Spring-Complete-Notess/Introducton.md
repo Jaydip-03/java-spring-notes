@@ -1,3 +1,12 @@
+> [!TIP]
+> Follow the Spring Framework overview first, then use the Spring Boot sections to review its setup and production features.
+
+| Section | Covers |
+|---|---|
+| Spring Framework | Its background, features, and ecosystem |
+| Spring Boot | Configuration, embedded servers, dependencies, and production features |
+| Architecture | How front ends, Spring services, and databases fit together |
+
 # 1. Introduction to Spring Framework
 
 ## 1. EJB
@@ -15,15 +24,15 @@ Before Spring became widely adopted, EJB was commonly used for developing large-
 EJB components generally run inside an **EJB/Jakarta EE application server**, which provides services such as:
 
 - Transaction management
-    
+
 - Security
-    
+
 - Persistence support
-    
+
 - Lifecycle management
-    
+
 - Remote communication
-    
+
 
 This made the application dependent on a managed enterprise runtime.
 
@@ -50,15 +59,15 @@ This made it harder to develop simple, independently testable Java classes.
 Developers wanted a programming model that was:
 
 - Simpler
-    
+
 - More flexible
-    
+
 - Easier to test
-    
+
 - Less dependent on a heavyweight application server
-    
+
 - Better suited for loosely coupled applications
-    
+
 
 **Spring Framework emerged as one of the major solutions to these problems.**
 
@@ -73,17 +82,17 @@ Spring was introduced by **Rod Johnson** in the early 2000s, with the first rele
 The framework focused on making Java enterprise development simpler through concepts such as:
 
 - **Inversion of Control (IoC)**
-    
+
 - **Dependency Injection (DI)**
-    
+
 - **Aspect-Oriented Programming (AOP)**
-    
+
 - Declarative transaction management
-    
+
 - Flexible configuration
-    
+
 - Modular architecture
-    
+
 
 ### Why did Spring become popular?
 
@@ -91,7 +100,7 @@ Spring allowed developers to build applications using **plain Java objects (POJO
 
 Instead of classes creating their own dependencies:
 
-```
+```java
 EmployeeRepository repository =
         new EmployeeRepository();
 ```
@@ -102,16 +111,16 @@ This promotes **loose coupling** and makes applications easier to test and maint
 
 ### Important Features of Spring
 
-```
-Spring Framework
-      │
-      ├── IoC / Dependency Injection
-      ├── AOP
-      ├── Transaction Management
-      ├── Spring MVC
-      ├── Data Access
-      ├── Security
-      └── Integration Support
+```mermaid
+flowchart TD
+    SF[Spring Framework]
+    SF --> I[IoC / Dependency Injection]
+    SF --> A[AOP]
+    SF --> T[Transaction Management]
+    SF --> MVC[Spring MVC]
+    SF --> D[Data Access]
+    SF --> S[Security]
+    SF --> IS[Integration Support]
 ```
 
 ### Spring and Interface21
@@ -129,7 +138,7 @@ SpringSource was subsequently acquired by **VMware**, and the Spring ecosystem i
 
 
 - **Spring Framework** was introduced by Rod Johnson in 2003. It aimed to simplify java enterprise application development by providing comprehensive programming and configuration model but over a time as spring framework became popular for its flexibility, dependency injection and support for aspect-oriented programming it also became increasingly complex as the number of configuration options grew.
-- Previous company name of spring is 'Interface 21 
+- Previous company name of spring is 'Interface 21
 - Current owner of spring is VMware
 - Spring 1.0 introduced in 2004
 - current versions of spring is 7.0(november13 2025)
@@ -137,44 +146,41 @@ SpringSource was subsequently acquired by **VMware**, and the Spring ecosystem i
 - Applications which are developed using spring will become loosely coupled application
 - Spring provides a relatively lightweight programming and configuration model for developing Java applications.
 - Spring is application framework because by using spring we can developed complete applications
-- 
- ![[Pasted image 20260922165213.png]]
+
+![Diagram](../assets/Pasted%20image%2020260922165213.png)
 
 
-  - Spring is versatile framework it means spring can easily integrate with another framework like angular js , react js, , nextJs.
-  - Spring doesn't directly "integrate" with React in the same way that Spring integrates with Spring MVC.
+- Spring is versatile framework it means spring can easily integrate with another framework like angular js , react js, , nextJs.
+- Spring doesn't directly "integrate" with React in the same way that Spring integrates with Spring MVC.
+
 Usually the architecture is
+```mermaid
+flowchart TD
+    F[React / Next.js / Angular] -->|HTTP / REST / JSON| SB[Spring Boot]
+    SB --> DB[Database]
 ```
-React / Next.js / Angular
-          │
-          │ HTTP / REST / JSON
-          ▼
-     Spring Boot
-          │
-          ▼
-      Database
+
+
+The Spring ecosystem consists of multiple projects/modules that address different application-development concern.
+
+```mermaid
+flowchart TD
+    SE[Spring Ecosystem]
+    SE --> SF[Spring Framework]
+    SF --> SC[Spring Core]
+    SF --> MVC[Spring MVC]
+    SF --> AOP[Spring AOP]
+    SF --> JDBC[Spring JDBC]
+    SE --> SB[Spring Boot]
+    SE --> SD[Spring Data]
+    SE --> SS[Spring Security]
+    SE --> SCloud[Spring Cloud]
+    SE --> SAI[Spring AI]
 ```
-  
-  
-   The Spring ecosystem consists of multiple projects/modules that address different application-development concern
-  
-Spring Ecosystem
-│
-├── Spring Framework
-│   ├── Spring Core
-│   ├── Spring MVC
-│   ├── Spring AOP
-│   └── Spring JDBC
-│
-├── Spring Boot
-├── Spring Data
-├── Spring Security
-├── Spring Cloud
-└── Spring AI
 
 
 
-#  Why Top Organizations Choose Spring Boot:
+# Why Top Organizations Choose Spring Boot:
 
 -  **Microservices Architecture**: Most of these companies use Spring Boot because it simplifies the development of microservices, enabling them to build scalable, modular applications that can be independently developed, tested, and deployed.
 
@@ -192,10 +198,10 @@ Spring Ecosystem
 
 # Why Spring Boot ?
 
-##Simplified Configuration
+## Simplified Configuration
  Spring Boot was introduced to solve the configuration and setup challenges faced in the traditional Spring Framework. Spring Boot follows a "convention over configuration" approach, which means it provides default settings and automatic configuration to handle most use cases, so you don’t need to manually configure everything.
 
-**Auto-Configuration**: 
+**Auto-Configuration**:
   Spring Boot automatically configures common components like databases, web servers, or security, so you don't have to manually define them. For example, if Spring Boot detects a database in your application, it automatically sets up a connection to it.
 
 **Example**: If you're using a MySQL database, Spring Boot automatically configures the connection just by adding the MySQL dependency to your project. You don’t need to write complex configuration files.
@@ -214,17 +220,16 @@ Spring Boot includes starter templates for various types of applications (like w
 
 - Example: Instead of adding individual dependencies for a web application, you can simply add the `spring-boot-starter-web` dependency, and it will include everything you need to build a web app.
 
-###  Production-Ready Features
+### Production-Ready Features
 
 Spring Boot provides several production-ready features out of the box, which are essential for deploying applications in real-world environments. These include:
 
 - **Metrics and Health Checks**: Using Spring Boot Actuator, you can easily monitor your application’s health, performance, and metrics. It provides endpoints to check things like memory usage, disk space, and database connectivity.
 - **Externalized Configuration**: Spring Boot allows you to easily manage environment-specific configurations. You can define settings in external files (like `application.properties` or `application.yml`) that can be different for development, testing, and production environments.
 
-###  Microservices and Cloud-Native
+### Microservices and Cloud-Native
 
 As software architectures moved towards microservices, Spring Boot became a preferred choice for building microservices applications due to its lightweight, modular nature and cloud-native capabilities.
 
 - **Microservices Architecture**: With Spring Boot, you can easily create small, independent services that can be deployed separately and scaled independently. This is especially important for large systems that need to handle millions of users.
-- **Cloud-Native**: Spring Boot integrates seamlessly with cloud platforms like AWS, Google Cloud, and Azure. It offers features like auto-scaling and monitoring, which are critical for applications running in the cloud.  
-     
+- **Cloud-Native**: Spring Boot integrates seamlessly with cloud platforms like AWS, Google Cloud, and Azure. It offers features like auto-scaling and monitoring, which are critical for applications running in the cloud.
